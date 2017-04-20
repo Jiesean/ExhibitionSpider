@@ -65,14 +65,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()){
-                    case R.id.tv_title:
-                    case R.id.tv_content:
-                    case R.id.iv_primary:
-                        break;
-                    case R.id.iv_avatar:
-                    case R.id.tv_author:
-                        break;
-                    case R.id.tv_collectTag:
+                    case R.id.title_tv:
+
+                    case R.id.image_iv:
                         break;
                     default:
                         break;
@@ -86,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                mBeans.clear();
                 getData();
             }
         });
@@ -93,8 +89,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void getData() {
         mRefreshLayout.setRefreshing(true);
-        mBeans.clear();
-
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -133,6 +127,10 @@ public class MainActivity extends AppCompatActivity {
                             bean.setLocation(meta.select("li").get(1).text());
                             bean.setCost(meta.select("li.fee").select("strong").text());
 
+                            if (!bean.isWanted()) {
+                                continue;
+                            }
+
                             System.out.println("***************************");
                             System.out.println(bean.getTitle());
                             System.out.println(bean.getTime());
@@ -140,11 +138,20 @@ public class MainActivity extends AppCompatActivity {
                             System.out.println(bean.getURL());
                             System.out.println(bean.getLocation());
                             System.out.println(bean.getCost());
+                            System.out.println(bean.getTag());
 
                             mBeans.add(bean);
                         }
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mAdapter.setNewData(mBeans);
+                                mRefreshLayout.setRefreshing(false);
+                            }
+                        });
+
                         index ++;
-                        Thread.sleep(10000);
+                        Thread.sleep(1000);
                     } catch (IOException e) {
                         e.printStackTrace();
                         Log.i(TAG, "run: " + e.getMessage());
@@ -155,15 +162,11 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
+
+
+
                 Log.d(TAG,"Spider End  ---->");
 
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mAdapter.setNewData(mBeans);
-                        mRefreshLayout.setRefreshing(false);
-                    }
-                });
 
             }
         }).start();

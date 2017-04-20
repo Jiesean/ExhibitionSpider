@@ -1,5 +1,7 @@
 package com.jiesean.exhibitionspider;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,9 +21,9 @@ public class ExhibitionBean {
     public ExhibitionBean(){
         keyWord = new ArrayList<>();
         keyWord.add("摄影");
-        keyWord.add("绘画");
-        keyWord.add("书法");
         keyWord.add("照片");
+        keyWord.add("画");
+        keyWord.add("书法");
     }
 
     public String getType() {
@@ -104,6 +106,7 @@ public class ExhibitionBean {
     private boolean containKey(String info){
         for (int i = 0; i < keyWord.size(); i++) {
             if (info.trim().indexOf(keyWord.get(i)) != -1) {
+                this.tag = ((i==1) ? "摄影": (i == 2 ? "绘画" : keyWord.get(i) ) );
                 return true;
             }
         }

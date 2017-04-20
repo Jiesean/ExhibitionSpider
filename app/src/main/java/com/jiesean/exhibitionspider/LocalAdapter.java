@@ -22,14 +22,14 @@ public class LocalAdapter extends BaseQuickAdapter<ExhibitionBean, BaseViewHolde
 
     @Override
     protected void convert(BaseViewHolder helper, ExhibitionBean bean) {
-        helper.setText(R.id.tv_title, bean.getTitle())
-                .addOnClickListener(R.id.iv_primary)
-                .addOnClickListener(R.id.tv_content)
-                .addOnClickListener(R.id.tv_title)
-                .addOnClickListener(R.id.tv_collectTag)
-                .addOnClickListener(R.id.iv_avatar)
-                .addOnClickListener(R.id.tv_author);
+        helper.setText(R.id.title_tv, bean.getTitle())
+                .setText(R.id.cost_tv, bean.getCost())
+                .setText(R.id.time_tv, bean.getTime())
+                .setText(R.id.location_tv, bean.getLocation())
+                .setText(R.id.tag_tv, bean.getTag())
+                .addOnClickListener(R.id.title_tv)
+                .addOnClickListener(R.id.image_iv);
 //        Glide.with(context).load(bean.getAvatarImg()).crossFade().into((ImageView) helper.getView(R.id.iv_avatar));
-//        Glide.with(context).load(bean.getPrimaryImg()).crossFade().into((ImageView) helper.getView(R.id.iv_primary));
+        Glide.with(context).load(bean.getImgURL()).crossFade().override(600, 200).fitCenter().into((ImageView) helper.getView(R.id.image_iv));
     }
 }
