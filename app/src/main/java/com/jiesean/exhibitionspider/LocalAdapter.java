@@ -11,7 +11,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
  * Created by Jiesean on 2017/4/18.
  */
 
-public class LocalAdapter extends BaseQuickAdapter<ExhibitionBean, BaseViewHolder> {
+public class LocalAdapter extends BaseQuickAdapter<LocalBean, BaseViewHolder> {
 
     private Context context;
 
@@ -21,7 +21,7 @@ public class LocalAdapter extends BaseQuickAdapter<ExhibitionBean, BaseViewHolde
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, ExhibitionBean bean) {
+    protected void convert(BaseViewHolder helper, LocalBean bean) {
         helper.setText(R.id.title_tv, bean.getTitle())
                 .setText(R.id.cost_tv, bean.getCost())
                 .setText(R.id.time_tv, bean.getTime())
@@ -29,7 +29,6 @@ public class LocalAdapter extends BaseQuickAdapter<ExhibitionBean, BaseViewHolde
                 .setText(R.id.tag_tv, bean.getTag())
                 .addOnClickListener(R.id.title_tv)
                 .addOnClickListener(R.id.image_iv);
-//        Glide.with(context).load(bean.getAvatarImg()).crossFade().into((ImageView) helper.getView(R.id.iv_avatar));
-        Glide.with(context).load(bean.getImgURL()).crossFade().override(600, 200).fitCenter().into((ImageView) helper.getView(R.id.image_iv));
+        Glide.with(context).load(bean.getImgURL()).crossFade().override(600, 200).centerCrop().into((ImageView) helper.getView(R.id.image_iv));
     }
 }

@@ -20,6 +20,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:configChanges="screenSize"
+            android:screenOrientation="portrait"
+            android:name=".WebActivity">
+        </activity>
     </application>
 
 </manifest>

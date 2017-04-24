@@ -22,7 +22,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.io.InterruptedIOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Document document;
 
-    private List<ExhibitionBean> mBeans;
+    private List<LocalBean> mBeans;
 
     private LocalAdapter mAdapter;
 
@@ -57,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
         mBeans = new ArrayList<>();
         mAdapter = new LocalAdapter(MainActivity.this);
-        mAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
+//        mAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
 
         mShowView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         mShowView.setAdapter(mAdapter);
@@ -66,10 +65,10 @@ public class MainActivity extends AppCompatActivity {
             public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()){
                     case R.id.title_tv:
-
                     case R.id.image_iv:
-                        break;
-                    default:
+                        Intent title = new Intent(MainActivity.this, WebActivity.class);
+                        title.putExtra("link", ((LocalBean)adapter.getItem(position)).getURL());
+                        startActivity(title);
                         break;
                 }
             }
@@ -100,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
                         document = Jsoup.connect("https://beijing.douban.com/events/week-exhibition?start=" + index + "0")
 //                                .proxy("222.74.225.231",3128)
+//                                .proxy("118.144.149.200",3128)
                                 .timeout(10000)
                                 .get();
                         Elements li = document.select("li.list-entry");
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
                             if (meta.toString().equals("")) {
                                 continue;
                             }
-                            ExhibitionBean bean = new ExhibitionBean();
+                            LocalBean bean = new LocalBean();
                             bean.setImgURL(element.select("img").attr("data-lazy")); // 图片链接
                             bean.setTitle(element.select("div.title").select("a").attr("title"));//标题
                             bean.setURL(element.select("div.title").select("a").attr("href"));//链接
@@ -163,20 +163,11 @@ public class MainActivity extends AppCompatActivity {
                 }
 
 
-
-
                 Log.d(TAG,"Spider End  ---->");
 
 
             }
         }).start();
     }
-
-    private String timeChange(String time){
-        String[] ts = time.split("T");
-        String[] split = ts[1].split("\\+");
-        return ts[0] + "    " +  split[0];
-    }
-
 
 }

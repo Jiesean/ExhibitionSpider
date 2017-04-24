@@ -9,7 +9,7 @@ import java.util.List;
  * Created by Jiesean on 2017/4/18.
  */
 
-public class ExhibitionBean {
+public class LocalBean {
 
     private String title;
     private String tag = "无";
@@ -18,7 +18,7 @@ public class ExhibitionBean {
     private String cost;
     private List<String> keyWord;
 
-    public ExhibitionBean(){
+    public LocalBean(){
         keyWord = new ArrayList<>();
         keyWord.add("摄影");
         keyWord.add("照片");
