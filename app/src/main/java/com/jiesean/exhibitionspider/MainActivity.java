@@ -154,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
                         Thread.sleep(1000);
                     } catch (IOException e) {
                         e.printStackTrace();
+
                         Log.i(TAG, "run: " + e.getMessage());
                         break;
                     }
